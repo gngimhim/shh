@@ -1,3 +1,96 @@
+-- Made by @zeins5 on discord
+local introCompleted = false
+
+if game:IsLoaded() then
+    local ShowIntro = true
+
+    local TweenService = game:GetService("TweenService")
+    local Blur = Instance.new("BlurEffect", game.Lighting)
+    local ScreenGui = Instance.new("ScreenGui")
+    local TextLabel = Instance.new("TextLabel")
+    local ImageLabel = Instance.new("ImageLabel")
+
+    Blur.Size = 0
+
+    if ShowIntro then
+        ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+        -- Configure TextLabel
+        TextLabel.Parent = ScreenGui
+        TextLabel.BackgroundTransparency = 1.000
+        TextLabel.BorderSizePixel = 0
+        TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0) -- Centered on the screen
+        TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+        TextLabel.Size = UDim2.new(0, 800, 0, 200)
+        TextLabel.Text = "Kaizen Is Loading"
+        TextLabel.TextColor3 = Color3.fromRGB(228, 173, 200)
+        TextLabel.TextTransparency = 1.000
+        TextLabel.TextScaled = true
+        TextLabel.Font = Enum.Font.Arcade
+
+        ImageLabel.Parent = ScreenGui
+        ImageLabel.BackgroundTransparency = 1.000
+        ImageLabel.Size = UDim2.new(0, 400, 0, 400) -- Original size
+        ImageLabel.Position = UDim2.new(0.5, 0, 0.6, 0) -- Start position
+        ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+        ImageLabel.Image = "rbxassetid://100928974592271" -- New asset ID
+        ImageLabel.ImageTransparency = 1.000 
+
+        local tweenStartBlur = TweenService:Create(Blur, TweenInfo.new(0.70), {Size = 24})
+        local tweenStartTextTransparency = TweenService:Create(TextLabel, TweenInfo.new(0.70), {TextTransparency = 0})
+        local tweenEndTextTransparency = TweenService:Create(TextLabel, TweenInfo.new(0.80), {TextTransparency = 1})
+        local tweenStartImageTransparency = TweenService:Create(ImageLabel, TweenInfo.new(0.70), {ImageTransparency = 0})
+
+        local tweenZoomIn = TweenService:Create(ImageLabel, TweenInfo.new(6, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
+            Size = UDim2.new(0, 800, 0, 800), -- End size (larger)
+            Position = UDim2.new(0.5, 0, 0.5, 0), -- End position (centered)
+            ImageTransparency = 1 -- Fade out
+        })
+
+        tweenStartBlur:Play()
+        tweenStartTextTransparency:Play()
+
+        tweenStartTextTransparency.Completed:Connect(function()
+            task.wait(1) 
+            tweenEndTextTransparency:Play()
+        end)
+
+        tweenEndTextTransparency.Completed:Connect(function()
+            tweenStartImageTransparency:Play()
+        end)
+
+        tweenStartImageTransparency.Completed:Connect(function()
+            -- Play zoom-in and fade-out animation
+            tweenZoomIn:Play()
+            tweenZoomIn.Completed:Connect(function()
+                Blur:Destroy()
+                ScreenGui:Destroy()
+                introCompleted = true 
+            end)
+        end)
+    else
+        introCompleted = true 
+    end
+
+    while not introCompleted do
+        task.wait(0.1)
+    end
+end
+
+local function fadeInGui(gui)
+    gui.Enabled = true
+    gui.ResetOnSpawn = false
+    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    gui:SetAttribute("Transparency", 1)
+
+    local tweenService = game:GetService("TweenService")
+    local tween = tweenService:Create(gui, TweenInfo.new(0.5), { ["Transparency"] = 0 })
+
+    tween:Play()
+end
+
+wait(0.8) -- transfer to second gui wait time
+
 local Settings = {
     Accent = Color3.fromHex("#8F30A7"),
     Font = Enum.Font.Arcade,
