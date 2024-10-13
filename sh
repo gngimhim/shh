@@ -2974,7 +2974,7 @@ Menu.TextBox("MAIN", "Misc", "Prediction", tostring(getgenv().Settings.Predictio
 end, "Prediction")
 
 Menu.Button("MAIN", "Misc", "Apply Prediction", function()
-    getgenv().Settings.VerticalPrediction = getgenv().Settings.VerticalPrediction
+    getgenv().Settings.Prediction = getgenv().Settings.Prediction
 end, "Apply the current predictions")
 
 
