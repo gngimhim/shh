@@ -92,7 +92,7 @@ end
 wait(0.8) -- transfer to second gui wait time
 
 local Settings = {
-    Accent = Color3.fromHex("#8F30A7"),
+    Accent = Color3.fromHex("#FF7B0A"),
     Font = Enum.Font.Arcade,
     IsBackgroundTransparent = true,
     Rounded = false,
